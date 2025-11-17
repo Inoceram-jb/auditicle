@@ -7,7 +7,7 @@ export function AudioPlayer({ audioUrl, title }: AudioPlayerProps) {
   return (
     <div className="w-full bg-gray-50 rounded-lg p-4 border border-gray-200">
       <p className="text-sm text-gray-600 mb-2">Audio:</p>
-      <audio controls className="w-full" preload="metadata">
+      <audio controls className="w-full" preload="metadata" aria-label={`Audio player for ${title}`}>
         <source src={audioUrl} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>

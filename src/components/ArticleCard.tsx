@@ -8,9 +8,10 @@ interface ArticleCardProps {
   article: ArticleWithEpisode;
   onGenerate: (articleId: string) => Promise<void>;
   onDelete: (articleId: string) => Promise<void>;
+  onPreview: (article: ArticleWithEpisode) => void;
 }
 
-export function ArticleCard({ article, onGenerate, onDelete }: ArticleCardProps) {
+export function ArticleCard({ article, onGenerate, onDelete, onPreview }: ArticleCardProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -68,14 +69,23 @@ export function ArticleCard({ article, onGenerate, onDelete }: ArticleCardProps)
         {getStatusBadge()}
       </div>
 
-      <a
-        href={article.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm text-primary-600 hover:text-primary-700 hover:underline mb-4 inline-block"
-      >
-        View original article →
-      </a>
+      <div className="flex items-center gap-3 mb-4">
+        {article.url && (
+          <a
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-primary-600 hover:text-primary-700 hover:underline"
+          >
+            View original article →
+          </a>
+        )}
+        {article.source_type === 'text' && (
+          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">
+            Text Article
+          </span>
+        )}
+      </div>
 
       {article.episode?.status === 'completed' && article.episode.audio_url && (
         <div className="mb-4">
@@ -93,7 +103,7 @@ export function ArticleCard({ article, onGenerate, onDelete }: ArticleCardProps)
         </div>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {(!article.episode || article.episode.status === 'pending' || article.episode.status === 'failed') && (
           <button
             onClick={handleGenerate}
@@ -117,6 +127,13 @@ export function ArticleCard({ article, onGenerate, onDelete }: ArticleCardProps)
             Processing...
           </div>
         )}
+
+        <button
+          onClick={() => onPreview(article)}
+          className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm font-medium transition-colors"
+        >
+          {article.is_editable ? 'Edit' : 'Preview'}
+        </button>
 
         <button
           onClick={handleDelete}

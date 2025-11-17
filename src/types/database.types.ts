@@ -1,12 +1,15 @@
 export type EpisodeStatus = 'pending' | 'processing' | 'completed' | 'failed';
 export type TTSProvider = 'google' | 'elevenlabs';
+export type ArticleSource = 'url' | 'text';
 
 export interface Article {
   id: string;
-  url: string;
+  url: string | null;
   title: string;
   content: string;
   author: string | null;
+  source_type: ArticleSource;
+  is_editable: boolean;
   created_at: string;
 }
 

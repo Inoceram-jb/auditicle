@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArticleCard } from '@/components/ArticleCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { AddTextArticleModal } from '@/components/AddTextArticleModal';
+import { EditArticleModal } from '@/components/EditArticleModal';
+import { StatisticsCard } from '@/components/StatisticsCard';
 import { useToastStore } from '@/store/toast';
-import type { ArticleWithEpisode, ListArticlesResponse } from '@/types';
+import type { ArticleWithEpisode, ListArticlesResponse, Article } from '@/types';
 
 export function Dashboard() {
   const [articles, setArticles] = useState<ArticleWithEpisode[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [url, setUrl] = useState('');
+  const [showTextModal, setShowTextModal] = useState(false);
+  const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const { addToast } = useToastStore();
 
   useEffect(() => {
@@ -164,6 +169,10 @@ export function Dashboard() {
     });
   };
 
+  const handlePreviewArticle = (article: ArticleWithEpisode) => {
+    setEditingArticle(article as Article);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -184,7 +193,7 @@ export function Dashboard() {
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Add Article</h2>
-          <form onSubmit={handleAddArticle} className="flex gap-3">
+          <form onSubmit={handleAddArticle} className="flex gap-3 mb-3">
             <input
               type="url"
               value={url}
@@ -204,11 +213,24 @@ export function Dashboard() {
                   Adding...
                 </>
               ) : (
-                'Add Article'
+                'Add from URL'
               )}
             </button>
           </form>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="text-sm text-gray-500">OR</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+          <button
+            onClick={() => setShowTextModal(true)}
+            className="mt-3 w-full px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium transition-colors"
+          >
+            Add Text Article
+          </button>
         </div>
+
+        <StatisticsCard />
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900 mb-3">RSS Feed</h2>
@@ -261,11 +283,25 @@ export function Dashboard() {
                 article={article}
                 onGenerate={handleGenerateEpisode}
                 onDelete={handleDeleteArticle}
+                onPreview={handlePreviewArticle}
               />
             ))}
           </div>
         )}
       </div>
+
+      <AddTextArticleModal
+        isOpen={showTextModal}
+        onClose={() => setShowTextModal(false)}
+        onSuccess={fetchArticles}
+      />
+
+      <EditArticleModal
+        article={editingArticle}
+        isOpen={!!editingArticle}
+        onClose={() => setEditingArticle(null)}
+        onSuccess={fetchArticles}
+      />
     </div>
   );
 }
