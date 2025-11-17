@@ -220,13 +220,13 @@ Application web permettant de transformer des articles en épisodes audio narrat
 - ✅ Player audio intégré
 
 ### Phase 2 - Améliorations (Nice-to-have)
-- Support ElevenLabs en option
-- Ajout texte brut (paste direct sans URL)
-- Batch generation (plusieurs articles)
-- Preview texte avant génération
-- Édition manuelle du texte extrait
-- Upload cover image personnalisée
-- Statistiques basiques (nombre épisodes, durée totale)
+- ✅ Support ElevenLabs en option
+- ✅ Ajout texte brut (paste direct sans URL)
+- ✅ Batch generation (plusieurs articles)
+- ✅ Preview texte avant génération
+- ✅ Édition manuelle du texte extrait
+- ✅ Upload cover image personnalisée
+- ✅ Statistiques basiques (nombre épisodes, durée totale)
 
 ### Phase 3 - Future (Non prioritaire)
 - Support multi-langues
