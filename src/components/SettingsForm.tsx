@@ -6,6 +6,7 @@ import type { GetSettingsResponse, UpdateSettingsRequest } from '@/types';
 export function SettingsForm() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [settings, setSettings] = useState<GetSettingsResponse['settings'] | null>(null);
   const { addToast } = useToastStore();
 
@@ -51,6 +52,73 @@ export function SettingsForm() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      addToast({
+        type: 'error',
+        message: 'Invalid file type. Please upload JPG, PNG, or WebP image.',
+      });
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      addToast({
+        type: 'error',
+        message: 'File too large. Maximum size is 5MB.',
+      });
+      return;
+    }
+
+    setUploading(true);
+    try {
+      // Convert to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64 = reader.result as string;
+
+        const response = await fetch('/api/settings/upload-cover', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: base64,
+            filename: file.name,
+          }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to upload image');
+        }
+
+        const data = await response.json();
+        setFormData({ ...formData, podcast_cover_url: data.url });
+
+        addToast({
+          type: 'success',
+          message: 'Cover image uploaded successfully',
+        });
+      };
+
+      reader.onerror = () => {
+        throw new Error('Failed to read file');
+      };
+    } catch (error) {
+      addToast({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'Failed to upload image',
+      });
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -161,15 +229,43 @@ export function SettingsForm() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Cover Image URL (optional)
+              Cover Image
             </label>
-            <input
-              type="url"
-              value={formData.podcast_cover_url}
-              onChange={(e) => setFormData({ ...formData, podcast_cover_url: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="https://example.com/cover.jpg"
-            />
+            <div className="space-y-3">
+              {formData.podcast_cover_url && (
+                <div className="relative w-32 h-32 border-2 border-gray-300 rounded-lg overflow-hidden">
+                  <img
+                    src={formData.podcast_cover_url}
+                    alt="Podcast cover"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              <div className="flex gap-3">
+                <label className="flex-1">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/webp"
+                    onChange={handleFileUpload}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                  <div className={`px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-center cursor-pointer transition-colors ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    {uploading ? 'Uploading...' : 'Upload Image'}
+                  </div>
+                </label>
+                <input
+                  type="url"
+                  value={formData.podcast_cover_url}
+                  onChange={(e) => setFormData({ ...formData, podcast_cover_url: e.target.value })}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  placeholder="Or paste image URL"
+                />
+              </div>
+              <p className="text-xs text-gray-500">
+                Upload an image (JPG, PNG, WebP, max 5MB) or paste a URL
+              </p>
+            </div>
           </div>
         </div>
       </div>

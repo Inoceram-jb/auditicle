@@ -39,7 +39,8 @@ export function decrypt(encryptedData: string): string {
   try {
     const buffer = Buffer.from(encryptedData, 'base64');
 
-    const salt = buffer.subarray(0, SALT_LENGTH);
+    // Salt is included in encrypted data (first SALT_LENGTH bytes) but not used in current implementation
+    // Skip salt and extract iv, tag, and encrypted data
     const iv = buffer.subarray(SALT_LENGTH, SALT_LENGTH + IV_LENGTH);
     const tag = buffer.subarray(SALT_LENGTH + IV_LENGTH, SALT_LENGTH + IV_LENGTH + TAG_LENGTH);
     const encrypted = buffer.subarray(SALT_LENGTH + IV_LENGTH + TAG_LENGTH);
