@@ -38,3 +38,6 @@ build
 # OS files
 Thumbs.db
 coverage/
+
+# miscellaneous
+notes.txt
