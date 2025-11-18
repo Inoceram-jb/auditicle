@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createR2Client } from '../../src/lib/r2';
+import { r2Client } from '../../src/lib/r2';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import type { ApiError } from '../../src/types';
 
@@ -62,8 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const contentType = contentTypeMap[fileExtension] || 'image/jpeg';
 
     // Upload to R2
-    const r2 = createR2Client();
-    await r2.send(
+    await r2Client.send(
       new PutObjectCommand({
         Bucket: process.env.R2_BUCKET_NAME!,
         Key: uniqueFilename,

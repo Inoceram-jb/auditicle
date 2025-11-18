@@ -12,11 +12,17 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 // Server-side client for API routes
 export function createServerClient() {
+  const serverSupabaseUrl = process.env.VITE_SUPABASE_URL || supabaseUrl;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
 
-  if (!supabaseServiceKey) {
-    throw new Error('Missing SUPABASE_SERVICE_KEY environment variable');
+  if (!serverSupabaseUrl || !supabaseServiceKey) {
+    throw new Error('Missing SUPABASE_SERVICE_KEY or VITE_SUPABASE_URL environment variable');
   }
 
-  return createClient<Database>(supabaseUrl, supabaseServiceKey);
+  return createClient<Database>(serverSupabaseUrl, supabaseServiceKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
 }

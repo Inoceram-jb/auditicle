@@ -49,7 +49,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const appUrl = process.env.VITE_APP_URL || 'http://localhost:3000';
-    const feedUrl = `${appUrl}/api/feed/rss`;
 
     // Build RSS XML
     let rss = `<?xml version="1.0" encoding="UTF-8"?>

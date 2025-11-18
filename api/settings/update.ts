@@ -45,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       updateData.google_tts_api_key = encrypt(updates.google_tts_api_key);
     }
 
-    if (updates.elevenlabs_api_key !== undefined) {
+    if (updates.elevenlabs_api_key !== undefined && updates.elevenlabs_api_key !== null) {
       updateData.elevenlabs_api_key = encrypt(updates.elevenlabs_api_key);
     }
 
