@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase';
-import type { GetStatisticsResponse, ApiError } from '../../src/types';
+import { createServerClient } from '../../src/lib/supabase.js';
+import type { GetStatisticsResponse, ApiError } from '../../src/types/index.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {

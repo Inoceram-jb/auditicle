@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase';
-import { generateTTS } from '../../src/lib/tts';
-import { uploadAudioToR2 } from '../../src/lib/r2';
-import { decrypt } from '../../src/utils/encryption';
-import type { GenerateEpisodeRequest, GenerateEpisodeResponse, ApiError } from '../../src/types';
+import { createServerClient } from '../../src/lib/supabase.js';
+import { generateTTS } from '../../src/lib/tts/index.js';
+import { uploadAudioToR2 } from '../../src/lib/r2.js';
+import { decrypt } from '../../src/utils/encryption.js';
+import type { GenerateEpisodeRequest, GenerateEpisodeResponse, ApiError } from '../../src/types/index.js';
 import { randomUUID } from 'crypto';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

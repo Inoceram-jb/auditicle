@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase';
+import { createServerClient } from '../../src/lib/supabase.js';
 import { format } from 'date-fns';
 
 function escapeXml(text: string): string {

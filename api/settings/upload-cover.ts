@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { r2Client } from '../../src/lib/r2';
+import { r2Client } from '../../src/lib/r2.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import type { ApiError } from '../../src/types';
+import type { ApiError } from '../../src/types/index.js';
 
 export const config = {
   api: {

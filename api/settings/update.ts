@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase';
-import { encrypt } from '../../src/utils/encryption';
-import type { UpdateSettingsRequest, ApiError } from '../../src/types';
+import { createServerClient } from '../../src/lib/supabase.js';
+import { encrypt } from '../../src/utils/encryption.js';
+import type { UpdateSettingsRequest, ApiError } from '../../src/types/index.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'PUT') {

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase';
-import { deleteAudioFromR2, getFileNameFromUrl } from '../../src/lib/r2';
-import type { DeleteArticleRequest, ApiError } from '../../src/types';
+import { createServerClient } from '../../src/lib/supabase.js';
+import { deleteAudioFromR2, getFileNameFromUrl } from '../../src/lib/r2.js';
+import type { DeleteArticleRequest, ApiError } from '../../src/types/index.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'DELETE') {
