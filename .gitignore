@@ -43,5 +43,5 @@ coverage/
 notes.txt
 dev-server.js
 
-# AI
-.claude
+# IA
+.claude/*
