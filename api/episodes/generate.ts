@@ -3,7 +3,7 @@ import { createServerClient } from '../_lib/supabase.js';
 import { generateTTS } from '../../src/lib/tts/index.js';
 import { uploadAudioToR2 } from '../../src/lib/r2.js';
 import { decrypt } from '../../src/utils/encryption.js';
-import type { GenerateEpisodeRequest, GenerateEpisodeResponse, ApiError } from '../../src/types/index.js';
+import type { GenerateEpisodeRequest, GenerateEpisodeResponse, ApiError } from '../_lib/types.js';
 import { randomUUID } from 'crypto';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
