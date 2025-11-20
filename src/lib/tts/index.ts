@@ -1,8 +1,8 @@
-export * from './google';
-export * from './elevenlabs';
+export * from './google.js';
+export * from './elevenlabs.js';
 
-import { generateGoogleTTS } from './google';
-import { generateElevenLabsTTS } from './elevenlabs';
+import { generateGoogleTTS } from './google.js';
+import { generateElevenLabsTTS } from './elevenlabs.js';
 import type { TTSProvider } from '../../types/index.js';
 
 interface TTSConfig {
