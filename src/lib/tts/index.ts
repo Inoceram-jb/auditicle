@@ -3,7 +3,7 @@ export * from './elevenlabs';
 
 import { generateGoogleTTS } from './google';
 import { generateElevenLabsTTS } from './elevenlabs';
-import type { TTSProvider } from '@/types';
+import type { TTSProvider } from '../../types/index.js';
 
 interface TTSConfig {
   provider: TTSProvider;
