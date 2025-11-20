@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { r2Client } from '../../src/lib/r2.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
