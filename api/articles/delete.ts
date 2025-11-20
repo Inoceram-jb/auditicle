@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase.js';
+import { createServerClient } from '../_lib/supabase.js';
 import { deleteAudioFromR2, getFileNameFromUrl } from '../../src/lib/r2.js';
 import type { DeleteArticleRequest, ApiError } from '../../src/types/index.js';
 

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase.js';
+import { createServerClient } from '../_lib/supabase.js';
 import { encrypt } from '../../src/utils/encryption.js';
 import type { UpdateSettingsRequest, ApiError } from '../../src/types/index.js';
 
