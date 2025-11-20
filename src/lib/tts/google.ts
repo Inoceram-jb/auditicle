@@ -1,4 +1,4 @@
-import { splitTextIntoChunks } from '@/utils/content-extraction';
+import { splitTextIntoChunks } from '../../utils/content-extraction.js';
 
 interface GoogleTTSConfig {
   apiKey: string;

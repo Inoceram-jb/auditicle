@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase.js';
+import { createServerClient } from '../_lib/supabase.js';
 import type { GetSettingsResponse, ApiError } from '../../src/types/index.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

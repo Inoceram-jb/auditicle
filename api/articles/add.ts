@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createServerClient } from '../../src/lib/supabase.js';
+import { createServerClient } from '../_lib/supabase.js';
 import { extractArticleContent, validateUrl } from '../../src/utils/content-extraction.js';
 import type { AddArticleRequest, AddArticleResponse, ApiError } from '../../src/types/index.js';
 

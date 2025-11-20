@@ -65,5 +65,7 @@ export interface Database {
         Update: Partial<Omit<Settings, 'id' | 'created_at' | 'updated_at'>>;
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
   };
 }
