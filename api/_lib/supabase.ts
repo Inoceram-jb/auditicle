@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from '../../src/types/database.types.js';
+import type { Database } from './database.types.js';
 
 export type { Database };
+export * from './database.types.js';
 
 export function createServerClient() {
   const supabaseUrl = process.env.VITE_SUPABASE_URL;
