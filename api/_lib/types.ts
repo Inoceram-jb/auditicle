@@ -1,2 +1,2 @@
-export * from './database.types.js';
+export * from './supabase.js';
 export * from './api.types.js';

@@ -1,4 +1,4 @@
-import { TTSProvider, EpisodeStatus, ArticleWithEpisode, Settings } from './database.types.js';
+import { TTSProvider, EpisodeStatus, ArticleWithEpisode, Settings } from './supabase.js';
 
 // API Request types
 export interface AddArticleRequest {
