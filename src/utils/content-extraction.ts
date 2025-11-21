@@ -73,8 +73,11 @@ export function cleanTextForTTS(text: string): string {
   return cleaned;
 }
 
-export function splitTextIntoChunks(text: string, maxChunkSize: number = 5000): string[] {
-  if (text.length <= maxChunkSize) {
+export function splitTextIntoChunks(text: string, maxChunkBytes: number = 4500): string[] {
+  // Use bytes instead of characters (UTF-8 chars can be 2-3 bytes)
+  const getByteLength = (str: string) => new TextEncoder().encode(str).length;
+
+  if (getByteLength(text) <= maxChunkBytes) {
     return [text];
   }
 
@@ -84,13 +87,30 @@ export function splitTextIntoChunks(text: string, maxChunkSize: number = 5000): 
   let currentChunk = '';
 
   for (const sentence of sentences) {
-    if ((currentChunk + sentence).length > maxChunkSize) {
+    const combined = currentChunk + (currentChunk ? ' ' : '') + sentence;
+    if (getByteLength(combined) > maxChunkBytes) {
       if (currentChunk) {
         chunks.push(currentChunk.trim());
       }
-      currentChunk = sentence;
+      // If single sentence is too long, split by words
+      if (getByteLength(sentence) > maxChunkBytes) {
+        const words = sentence.split(' ');
+        let wordChunk = '';
+        for (const word of words) {
+          const wordCombined = wordChunk + (wordChunk ? ' ' : '') + word;
+          if (getByteLength(wordCombined) > maxChunkBytes) {
+            if (wordChunk) chunks.push(wordChunk.trim());
+            wordChunk = word;
+          } else {
+            wordChunk = wordCombined;
+          }
+        }
+        currentChunk = wordChunk;
+      } else {
+        currentChunk = sentence;
+      }
     } else {
-      currentChunk += (currentChunk ? ' ' : '') + sentence;
+      currentChunk = combined;
     }
   }
 
