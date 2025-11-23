@@ -49,6 +49,12 @@ export async function extractArticleContent(url: string): Promise<ExtractedConte
 export function cleanTextForTTS(text: string): string {
   let cleaned = text;
 
+  // Normalize apostrophes - convert typographic apostrophes to simple ones
+  cleaned = cleaned.replace(/[''`]/g, "'");
+
+  // Normalize quotes
+  cleaned = cleaned.replace(/[""„«»]/g, '"');
+
   // Remove multiple spaces
   cleaned = cleaned.replace(/\s+/g, ' ');
 
@@ -59,8 +65,7 @@ export function cleanTextForTTS(text: string): string {
   cleaned = cleaned.replace(/https?:\/\/[^\s]+/g, 'lien disponible dans la description');
 
   // Remove special characters that may cause TTS issues
-  // Keep apostrophes (both ' and ') for French contractions like "j'adore", "c'est"
-  cleaned = cleaned.replace(/[^\w\s.,!?;:()\-'"'àâäéèêëïîôùûüÿçœæÀÂÄÉÈÊËÏÎÔÙÛÜŸÇŒÆ]/g, '');
+  cleaned = cleaned.replace(/[^\w\s.,!?;:()\-'"àâäéèêëïîôùûüÿçœæÀÂÄÉÈÊËÏÎÔÙÛÜŸÇŒÆ]/g, '');
 
   // Ensure proper punctuation for better prosody
   cleaned = cleaned.replace(/([.!?])\s*([A-ZÀÂÄÉÈÊËÏÎÔÙÛÜŸÇ])/g, '$1 $2');
