@@ -186,7 +186,7 @@ describe('Content Extraction - Input Validation & Security Tests', () => {
   describe('splitTextIntoChunks() - Chunking Logic', () => {
     it('should return single chunk for text under limit', () => {
       const text = 'Short text';
-      const chunks = splitTextIntoChunks(text, 5000);
+      const chunks = splitTextIntoChunks(text, 4500);
 
       expect(chunks).toHaveLength(1);
       expect(chunks[0]).toBe('Short text');
@@ -217,7 +217,7 @@ describe('Content Extraction - Input Validation & Security Tests', () => {
 
     it('should handle single sentence longer than chunk size', () => {
       const longSentence = 'a'.repeat(6000) + '.';
-      const chunks = splitTextIntoChunks(longSentence, 5000);
+      const chunks = splitTextIntoChunks(longSentence, 4500);
 
       // Should still create chunks, even if sentence is too long
       expect(chunks.length).toBeGreaterThan(0);
@@ -242,7 +242,7 @@ describe('Content Extraction - Input Validation & Security Tests', () => {
     });
 
     it('should handle empty text', () => {
-      const chunks = splitTextIntoChunks('', 5000);
+      const chunks = splitTextIntoChunks('', 4500);
 
       // May return empty array or array with empty string, both are acceptable
       if (chunks.length > 0) {
@@ -259,7 +259,7 @@ describe('Content Extraction - Input Validation & Security Tests', () => {
       });
     });
 
-    it('should use default max size of 5000', () => {
+    it('should use default max size of 4500', () => {
       const text = 'a'.repeat(4000) + '. ' + 'b'.repeat(4000) + '.';
       const chunks = splitTextIntoChunks(text); // No maxChunkSize provided
 
@@ -354,7 +354,7 @@ describe('Content Extraction - Input Validation & Security Tests', () => {
 
     it('splitTextIntoChunks should handle text with no sentence boundaries', () => {
       const text = 'a'.repeat(10000); // No punctuation
-      const chunks = splitTextIntoChunks(text, 5000);
+      const chunks = splitTextIntoChunks(text, 4500);
 
       expect(chunks.length).toBeGreaterThan(0);
       // Should handle gracefully even without sentence boundaries

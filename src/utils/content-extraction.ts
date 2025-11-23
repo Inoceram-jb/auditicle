@@ -23,8 +23,17 @@ export async function extractArticleContent(url: string): Promise<ExtractedConte
 
     const html = await response.text();
 
+    // Decode HTML entities before parsing
+    const decodedHtml = html
+      .replace(/&#39;/g, "'")
+      .replace(/&rsquo;/g, "'")
+      .replace(/&lsquo;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&#8217;/g, "'")
+      .replace(/&#8216;/g, "'");
+
     // Parse with JSDOM
-    const dom = new JSDOM(html, { url });
+    const dom = new JSDOM(decodedHtml, { url });
     const reader = new Readability(dom.window.document);
     const article = reader.parse();
 
