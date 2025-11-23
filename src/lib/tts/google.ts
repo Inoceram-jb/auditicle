@@ -14,7 +14,7 @@ export async function generateGoogleTTS(
   text: string,
   config: GoogleTTSConfig
 ): Promise<Buffer> {
-  const chunks = splitTextIntoChunks(text, 5000);
+  const chunks = splitTextIntoChunks(text);
   const audioBuffers: Buffer[] = [];
 
   for (const chunk of chunks) {
