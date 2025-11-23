@@ -59,7 +59,8 @@ export function cleanTextForTTS(text: string): string {
   cleaned = cleaned.replace(/https?:\/\/[^\s]+/g, 'lien disponible dans la description');
 
   // Remove special characters that may cause TTS issues
-  cleaned = cleaned.replace(/[^\w\s.,!?;:()\-'"àâäéèêëïîôùûüÿçÀÂÄÉÈÊËÏÎÔÙÛÜŸÇ]/g, '');
+  // Keep apostrophes (both ' and ') for French contractions like "j'adore", "c'est"
+  cleaned = cleaned.replace(/[^\w\s.,!?;:()\-'"'àâäéèêëïîôùûüÿçœæÀÂÄÉÈÊËÏÎÔÙÛÜŸÇŒÆ]/g, '');
 
   // Ensure proper punctuation for better prosody
   cleaned = cleaned.replace(/([.!?])\s*([A-ZÀÂÄÉÈÊËÏÎÔÙÛÜŸÇ])/g, '$1 $2');
