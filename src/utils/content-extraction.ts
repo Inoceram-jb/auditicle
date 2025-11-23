@@ -64,6 +64,10 @@ export function cleanTextForTTS(text: string): string {
   // Normalize quotes
   cleaned = cleaned.replace(/[""„«»]/g, '"');
 
+  // Normalize ellipsis and dashes
+  cleaned = cleaned.replace(/…/g, '...');
+  cleaned = cleaned.replace(/[–—]/g, '-');
+
   // Remove multiple spaces
   cleaned = cleaned.replace(/\s+/g, ' ');
 
